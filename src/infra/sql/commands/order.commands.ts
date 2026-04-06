@@ -13,7 +13,7 @@ export const ORDER_COMMANDS = {
 
 	CANCEL_ORDER: `
     UPDATE orders
-    SET status='CANCELLED', qr_code=NULL
+    SET status='CANCELED', qr_code=NULL
     WHERE id=$1
   `,
 

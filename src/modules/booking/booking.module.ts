@@ -12,6 +12,7 @@ import {
 } from '@/clients'
 
 import { BookingController } from './booking.controller'
+import { BookingRepository } from './booking.repository'
 import { BookingService } from './booking.service'
 
 @Module({
@@ -93,6 +94,7 @@ import { BookingService } from './booking.service'
 	],
 	controllers: [BookingController],
 	providers: [
+		BookingRepository,
 		BookingService,
 		TheaterClientGrpc,
 		HallClientGrpc,

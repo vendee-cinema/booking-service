@@ -4,9 +4,8 @@ import postgres from 'postgres'
 
 import { getDatabaseConfig } from '@/config/database.config'
 
+import { PG } from './database.constants'
 import { DatabaseService } from './database.service'
-
-export const PG = Symbol('PG')
 
 @Global()
 @Module({

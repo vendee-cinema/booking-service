@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common'
 import type { Sql } from 'postgres'
 
-import { PG } from './database.module'
+import { PG } from './database.constants'
 
 @Injectable()
 export class DatabaseService implements OnModuleInit, OnModuleDestroy {

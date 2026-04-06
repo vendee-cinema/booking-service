@@ -39,7 +39,7 @@ export class BookingService {
 			const { session } = await lastValueFrom(
 				this.sessionClient.getSession({ id })
 			)
-			ctx.session.set(id, session)
+			ctx.sessions.set(id, session)
 		}
 		return ctx.sessions.get(id)
 	}
@@ -48,7 +48,7 @@ export class BookingService {
 		if (!id) return null
 		if (!ctx.movies.has(id)) {
 			const { movie } = await lastValueFrom(this.movieClient.getMovie({ id }))
-			ctx.movie.set(id, movie)
+			ctx.movies.set(id, movie)
 		}
 		return ctx.movies.get(id)
 	}
@@ -56,7 +56,7 @@ export class BookingService {
 	private async getHall(id: string, ctx: any) {
 		if (!ctx.halls.has(id)) {
 			const { hall } = await lastValueFrom(this.hallClient.getHall({ id }))
-			ctx.hall.set(id, hall)
+			ctx.halls.set(id, hall)
 		}
 		return ctx.halls.get(id)
 	}
@@ -67,7 +67,7 @@ export class BookingService {
 			const { theater } = await lastValueFrom(
 				this.theaterClient.getTheater({ id })
 			)
-			ctx.theater.set(id, theater)
+			ctx.theaters.set(id, theater)
 		}
 		return ctx.theaters.get(id)
 	}
@@ -75,7 +75,7 @@ export class BookingService {
 	private async getSeat(id: string, ctx: any) {
 		if (!ctx.seats.has(id)) {
 			const { seat } = await lastValueFrom(this.seatClient.getSeat({ id }))
-			ctx.seat.set(id, seat)
+			ctx.seats.set(id, seat)
 		}
 		return ctx.seats.get(id)
 	}
@@ -104,8 +104,8 @@ export class BookingService {
 
 				const [movie, hall, theater] = await Promise.all([
 					this.getMovie(session.movie.id, ctx),
-					this.getHall(session.movie.id, ctx),
-					this.getTheater(session.movie.id, ctx)
+					this.getHall(session.hall.id, ctx),
+					this.getTheater(session.theater.id, ctx)
 				])
 
 				const seats = await Promise.all(
@@ -119,9 +119,11 @@ export class BookingService {
 					})
 				)
 
+				console.log('SESSION: ', session)
+
 				return {
 					id: order.id,
-					sessionDate: session.startAt.split('T')[0],
+					sessionDate: new Date(session.startAt).toISOString().split('T')[0],
 					sessionTime: new Date(session.startAt).toLocaleTimeString('ua-UA', {
 						hour: '2-digit',
 						minute: '2-digit'
